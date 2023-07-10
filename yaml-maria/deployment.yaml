@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+      - image: mariadb
+        name: db
+        # não faça isso em produção, utilize secrets do kubernetes
+        env: 
+        - name: MYSQL_ROOT_PASSWORD
+          value: test
+        - name: MYSQL_USER
+          value: user
+        - name: MYSQL_PASSWORD
+          value: test
+        - name: MYSQL_DATABASE
+          value: dbvisitantes
+        ports:
+        - containerPort: 3306
+          name: db
+        volumeMounts:
+        - name: mariadb-initdb
+          mountPath: /docker-entrypoint-initdb.d
+        - name: maria-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mariadb-initdb
+        configMap:
+          name: mariadb-initdb-config
+      - name: maria-persistent-storage
+        persistentVolumeClaim:
+          claimName: mariadb-pv-claim
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mariadb-initdb-config
+data:
+  init.sql: |
+    CREATE DATABASE IF NOT EXISTS dbvisitantes;
+    USE dbvisitantes;
+    CREATE TABLE `Visitante` (`id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, `ip` varchar(50) NOT NULL, `data` datetime NOT NULL) ENGINE=InnoDB DEFAULT CHARSET=latin1;

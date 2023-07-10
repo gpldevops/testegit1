@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: www-site
+spec:
+  selector:
+    app: www-site
+# se nodeport   , descomente as linhas abaixo 
+  ports:
+    - port: 8080 # porta do nodeport
+      targetPort: 80 # porta do containerPort do deployment
+      nodePort: 30000 # porta do loadbalancer
+  type: NodePort
+
+# se loadbalancer, descomente as linhas abaixo
+  # ports:
+  # - protocol: TCP
+  #   port: 8080
+  #   targetPort: 80
+  # type: LoadBalancer 
