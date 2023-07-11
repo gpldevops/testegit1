@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: www-site
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels: 
       app: www-site
@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: www-site
-        image: italomarcelo/lamp8:v1
+        image: gpldevops/testegit1:v1
         ports:
         - containerPort: 80 # porta do serviço (targetport)

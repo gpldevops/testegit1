@@ -10,9 +10,5 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-install zip
 
-# comentei as linhas abaixo após gerar 
-# a imagem italomarcelo/lamp8:v1
-
-# WORKDIR /var/www/html
-# COPY www /var/www/html
-
+WORKDIR /var/www/html
+COPY www /var/www/html

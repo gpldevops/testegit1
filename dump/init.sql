@@ -12,6 +12,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `Visitante` (
   `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `ip` varchar(50) NOT NULL,
+  `hostname` varchar(150) NOT NULL,
   `data` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

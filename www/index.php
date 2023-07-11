@@ -1,8 +1,27 @@
+<?php
+error_reporting(E_ERROR | E_PARSE);
+include('_set_up_.php');
+
+try {        
+    $conn = new PDO("mysql:host=$servername;dbname=".$database, $username, $password);
+    // set the PDO error mode to exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $msg = "Status: Conectado com sucesso";
+}
+catch(PDOException $e) {
+     $msg = "status: Erro na conexão: " . $e->getMessage();
+}
+$msghost = gethostname();
+$ip = $_SERVER['REMOTE_ADDR'];
+
+$sql = "INSERT INTO Visitante (ip, hostname, data) VALUES (?, ?, CURRENT_TIMESTAMP())";
+$conn->prepare($sql)->execute(array($ip, $msghost));
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Travel Agency</title>
-    <meta property="og:title" content="Travel Agency" />
+    <title>Exemplo WebSite</title>
+    <meta property="og:title" content="Exemplo WebSite" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="utf-8" />
     <meta property="twitter:card" content="summary_large_image" />
@@ -46,9 +65,9 @@
             <div class="landing-page-right-side">
               <div class="landing-page-links-container">
                 <span class="landing-page-text">Home</span>
-                <span class="landing-page-text01">About</span>
-                <span class="landing-page-text02">Tour Packages</span>
-                <span class="landing-page-text03">Contact</span>
+                <span class="landing-page-text01">Sobre</span>
+                <span class="landing-page-text02">Recursos</span>
+                <span class="landing-page-text03">Contato</span>
               </div>
               <a href="#main-section" class="landing-page-link">
                 <div class="solid-button-container">
@@ -89,14 +108,14 @@
                 <div class="landing-page-right-side1">
                   <div class="landing-page-links-container1">
                     <span class="landing-page-text04">Home</span>
-                    <span class="landing-page-text05">About</span>
-                    <span class="landing-page-text06">Tour Packages</span>
+                    <span class="landing-page-text05">Sobre</span>
+                    <span class="landing-page-text06">Recursos</span>
                     <span>Contact</span>
                   </div>
                   <a href="#main-section" class="landing-page-link01">
                     <div class="solid-button-container">
                       <button class="solid-button-button button Button">
-                        <span>Explore places</span>
+                        <span><?php echo $ip; ?></span>
                       </button>
                     </div>
                   </a>
@@ -156,9 +175,9 @@
           </nav>
           <div class="landing-page-hero">
             <div class="landing-page-content-container">
-              <h1 class="Heading landing-page-text09">Book an exclusive</h1>
+              <h1 class="Heading landing-page-text09"><?php echo $msghost; ?></h1>
               <h2 class="Subheading landing-page-subheading">
-                home for your personal travel
+                <?php echo $ip; ?>
               </h2>
               <span class="landing-page-text10">
                 <span>Each property is hand-picked,</span>
@@ -316,7 +335,7 @@
                   rel="noreferrer noopener"
                   class="landing-page-link05"
                 >
-                  Tour packages
+                  Recursos
                 </a>
                 <a
                   href="https://example.com"
