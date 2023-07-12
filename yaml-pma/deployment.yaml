@@ -20,10 +20,24 @@ spec:
           ports:
             - containerPort: 80
           env:
-          # não fazer isso em produção (utilize secret)
+          # não fazer isso em produção 
+            # - name: PMA_HOST
+            #   value: db
+            # - name: PMA_PORT
+            #   value: "3306"
+            # - name: MYSQL_ROOT_PASSWORD
+            #   value: test 
+            # utilizando secrets
             - name: PMA_HOST
-              value: db
+              valueFrom:
+                secretKeyRef:
+                  name: db-user-pass
+                  key: database
             - name: PMA_PORT
               value: "3306"
             - name: MYSQL_ROOT_PASSWORD
-              value: test 
+              valueFrom:
+                secretKeyRef:
+                  name: db-user-pass
+                  key: password
+# ---
