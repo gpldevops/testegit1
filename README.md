@@ -23,8 +23,8 @@ Apps necessários:
 ### Testar aplicação em microsserviços com kubernetes
 * ./meucluster.bat iniciar
 * via browser
-  + http://localhost (app)
-  + http://localhost:8081 (phpmyadmin)
+  + http://localhost:30000 (app)
+  + http://localhost:30001 (phpmyadmin)
 * para aumentar as réplicas dos pods, edite em deployment o número de réplicas
 
 ## Github
